@@ -1,0 +1,43 @@
+{
+  "name": "cachier-node",
+  "version": "1.0.0",
+  "description": "An in-memory cash manager, stores cached data for provided TTL or until app restart.",
+  "main": "./lib/cjs/index.js",
+  "scripts": {
+    "clean": "rm -rf ./lib",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc -p ./configs/tsconfig.esm.json && mv lib/esm/index.js lib/esm/index.mjs",
+    "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
+    "prepack": "npm run build"
+  },
+  "keywords": [
+    "cache",
+    "inmemory",
+    "ttl"
+  ],
+  "files": [
+    "lib/**/*"
+  ],
+  "author": "deadshot674gam",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deadshot674gam/cachier-node"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  },
+  "types": "./lib/cjs/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./lib/esm/types/index.d.ts",
+        "default": "./lib/esm/index.mjs"
+      },
+      "require": {
+        "types": "./lib/cjs/types/index.d.ts",
+        "default": "./lib/cjs/index.js"
+      }
+    }
+  }
+}
