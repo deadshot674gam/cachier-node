@@ -1,6 +1,6 @@
 
 
-export class Cache<T> {
+export default class Cache<T> {
     object: T | undefined
     ttl: number | undefined
     createTime: number

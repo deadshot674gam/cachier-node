@@ -3,7 +3,8 @@
     "compilerOptions": {
         "lib": [
             "ES6",
-            "DOM"
+            "DOM",
+            "es2017"
         ],
         "target": "ES6",
         "module": "CommonJS",

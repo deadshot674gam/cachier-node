@@ -1,6 +1,6 @@
-import { Cache } from "./cache";
+import Cache from "./cache";
 
-export class Cachier<T> {
+export default class ListCachier<T> {
     caches: Cache<T>[]
     globalTTL: number
 
@@ -21,7 +21,7 @@ export class Cachier<T> {
 
     removeCachePostTTL() {
         if (this.globalTTL > 0) {
-            let indexesToDelete: Number[] = []
+            let indexesToDelete: Array<number> = []
             this.caches.forEach((cache, index) => {
                 if ((Date.now() - cache.createTime) > this.globalTTL) {
                     indexesToDelete.push(index)

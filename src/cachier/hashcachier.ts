@@ -1,6 +1,6 @@
 
 
-export class HashCachier<K, V> {
+export default class HashCachier<K, V> {
     map: Map<K, V>
     ttlMap: Map<K, number>
     createTimeMap: Map<K, number>
@@ -12,6 +12,9 @@ export class HashCachier<K, V> {
         this.createTimeMap = new Map<K, number>()
         this.creatTime = Date.now()
         this.globalTTL = globalTTL ? globalTTL : -1
+
+        setInterval(this.removeEntries,this.globalTTL>0? this.globalTTL : 60 * 60 * 1000) 
+
     }
 
     set(key: K, value: V, ttl: number | undefined) {
@@ -31,7 +34,7 @@ export class HashCachier<K, V> {
             for (const [key, value] of this.map) {
                 let creatTime = this.createTimeMap.get(key)
                 let ttl = this.ttlMap.get(key) ? this.ttlMap.get(key) : this.globalTTL
-                if (creatTime && ttl && (Date.now() - creatTime) > ttl) {
+                if (creatTime && ttl && (Date.now() - creatTime) >= ttl) {
                     keysTobeRemove.push(key)
                 }
             }
@@ -42,7 +45,7 @@ export class HashCachier<K, V> {
                 this.ttlMap.delete(k)
             }
         } else {
-            if (Date.now() - this.creatTime > this.globalTTL) {
+            if (Date.now() - this.creatTime >= this.globalTTL) {
                 this.map.clear()
                 this.ttlMap.clear()
                 this.createTimeMap.clear()
